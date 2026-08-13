@@ -78,4 +78,4 @@ const login = async ({ email, password }) => {
     }
 }
 
-module.exports = { signup, login }
+module.exports = { signup, login, generateToken }
