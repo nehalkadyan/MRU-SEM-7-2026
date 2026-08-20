@@ -1,0 +1,32 @@
+# services:
+
+# create one service for mongo
+
+# create one service for auth
+
+services:
+  mongo:
+    # pulling image mongo from dockerhub
+    image: mongo:latest
+    # exposing port 27017
+    ports:
+      - "27017:27017"
+    # volume is used to store data in your local hard disk in your system
+    volumes:
+      - mongo-data:/data/db
+
+  auth-service:
+    # command used to build the image, "./auth-service is the path where"
+    # Dockerfile lives
+    build: "./auth-service"
+    # exposing port 3000 so app could run locally on port 3000 in local machine
+    ports:
+      - "3000:3000"
+    # environment variables
+    environment:
+      - PORT=3000
+      - DB_URI:mongodb://mongo:27017
+      - JWT_SECRET:abcdefghijklmnop
+
+volumes:
+  mongo-data:
