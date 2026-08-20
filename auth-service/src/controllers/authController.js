@@ -1,12 +1,10 @@
 const authService = require("../services/authService");
-
 // signup controller
-
 const signUp = async (req, res) => {
     try {
         // result
         // req.body -> {name : "abc", email : "abc@gmail.com", password : "abc"}
-        const result = authService.signup(req.body)
+        const result = await authService.signup(req.body)
 
         // return response
         return res.status(201).json({ response: result })
@@ -20,12 +18,10 @@ const signUp = async (req, res) => {
         }
     }
 }
-
 // login
-
-const login = (req, res) => {
+const login = async (req, res) => {
     try {
-        const result = authService.login(req.body);
+        const result = await authService.login(req.body);
         return res.status(200).json({ response: result })
     } catch (err) {
         if (err.message === "User not found!") {
@@ -33,10 +29,8 @@ const login = (req, res) => {
         } else {
             return res.status(500).json({ message: "Internal server Error" })
         }
-
     }
 }
 
-
-
+// export
 module.exports = { signUp, login }
