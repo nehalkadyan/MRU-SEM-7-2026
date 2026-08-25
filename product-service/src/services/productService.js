@@ -14,14 +14,7 @@ const getProducts = async () => {
     return await Product.find();
 };
 
-const checkAuthServiceHealth = async () => {
-    // Calling the auth-service using its container name from docker-compose
-    const response = await fetch("http://auth-service:3000/health");
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-};
+
 
 module.exports = {
     createProduct,
