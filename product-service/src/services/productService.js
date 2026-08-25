@@ -14,10 +14,8 @@ const getProducts = async () => {
     return await Product.find();
 };
 
-
-
 module.exports = {
     createProduct,
     getProducts,
-    checkAuthServiceHealth
+
 };

@@ -1,7 +1,5 @@
 # services:
-
 # create one service for mongo
-
 # create one service for auth
 services:
   mongo:
@@ -30,5 +28,20 @@ services:
       - DB_URI=mongodb://mongo:27017
       - JWT_SECRET=abcdefghijklmnop
 
+  product-service:
+    # command used to build the image, "./auth-service is the path where"
+    build: "./product-service"
+    # exposing port 3001 so app could run locally on port 3000 in local machine
+    ports:
+      - "3001:3001"
+    # making sure mongo contains spins up first, since product service depends on it
+    depends_on:
+      - mongo
+    # environment variables
+    environment:
+      - PORT=3001
+      - MONGO_URI=mongodb://mongo:27017
+
+# volume to persist data for mongodb in hard disk
 volumes:
   mongo-data:
