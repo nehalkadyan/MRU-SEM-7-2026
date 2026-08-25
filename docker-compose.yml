@@ -3,11 +3,11 @@
 # create one service for mongo
 
 # create one service for auth
-
 services:
   mongo:
+    container_name: mongo
     # pulling image mongo from dockerhub
-    image: mongo:latest
+    image: mongo:7.0
     # exposing port 27017
     ports:
       - "27017:27017"
@@ -22,11 +22,13 @@ services:
     # exposing port 3000 so app could run locally on port 3000 in local machine
     ports:
       - "3000:3000"
+    depends_on:
+      - mongo
     # environment variables
     environment:
       - PORT=3000
-      - DB_URI:mongodb://mongo:27017
-      - JWT_SECRET:abcdefghijklmnop
+      - DB_URI=mongodb://mongo:27017
+      - JWT_SECRET=abcdefghijklmnop
 
 volumes:
   mongo-data:
