@@ -17,30 +17,34 @@ services:
     # command used to build the image, "./auth-service is the path where"
     # Dockerfile lives
     build: "./auth-service"
-    # exposing port 3000 so app could run locally on port 3000 in local machine
-    ports:
-      - "3000:3000"
     depends_on:
       - mongo
-    # environment variables
+    env_file:
+      - .env
     environment:
       - PORT=3000
-      - DB_URI=mongodb://mongo:27017
-      - JWT_SECRET=abcdefghijklmnop
 
   product-service:
     # command used to build the image, "./auth-service is the path where"
     build: "./product-service"
-    # exposing port 3001 so app could run locally on port 3000 in local machine
-    ports:
-      - "3001:3001"
     # making sure mongo contains spins up first, since product service depends on it
     depends_on:
       - mongo
-    # environment variables
+    env_file:
+      - .env
     environment:
       - PORT=3001
-      - MONGO_URI=mongodb://mongo:27017
+
+  api-gateway:
+    image: nginx:alpine
+    container_name: api-gateway
+    ports:
+      - "8080:80"
+    volumes:
+      - ./api-gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - auth-service
+      - product-service
 
 # volume to persist data for mongodb in hard disk
 volumes:

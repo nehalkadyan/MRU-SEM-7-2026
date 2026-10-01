@@ -17,5 +17,4 @@ const getProducts = async () => {
 module.exports = {
     createProduct,
     getProducts,
-
 };

@@ -1,5 +1,6 @@
 // require express
 const express = require("express");
+const cookieParser = require("cookie-parser");
 // import routes
 const authRoutes = require("./routes/authRoutes")
 
@@ -10,6 +11,7 @@ const app = express()
 // parse json data
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use("/api/auth", authRoutes);
 
