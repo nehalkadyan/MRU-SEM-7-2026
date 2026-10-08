@@ -24,16 +24,23 @@ services:
     environment:
       - PORT=3000
 
-  product-service:
-    # command used to build the image, "./auth-service is the path where"
+  product-service-1:
     build: "./product-service"
-    # making sure mongo contains spins up first, since product service depends on it
     depends_on:
       - mongo
     env_file:
       - .env
     environment:
       - PORT=3001
+
+  product-service-2:
+    build: "./product-service"
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    environment:
+      - PORT=3002
 
   api-gateway:
     image: nginx:alpine
@@ -44,7 +51,8 @@ services:
       - ./api-gateway/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - auth-service
-      - product-service
+      - product-service-1
+      - product-service-2
 
 # volume to persist data for mongodb in hard disk
 volumes:

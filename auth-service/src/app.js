@@ -15,7 +15,7 @@ app.use(cookieParser())
 
 app.use("/api/auth", authRoutes);
 
-// health-check endpoint
+// health-check endpoint - public
 
 app.get("/health", (req, res) => {
     return res.status(200).json({ message: "OK" })
