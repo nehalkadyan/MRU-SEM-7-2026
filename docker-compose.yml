@@ -42,6 +42,28 @@ services:
     environment:
       - PORT=3002
 
+  order-service:
+    build: "./order-service"
+    ports:
+      - "3003:3003"
+    depends_on:
+      - mongo
+      - mail-service
+    env_file:
+      - .env
+    environment:
+      - PORT=3003
+      - MAIL_SERVICE_URL=http://mail-service:3004/api/mail/send
+
+  mail-service:
+    build: "./mail-service"
+    ports:
+      - "3004:3004"
+    env_file:
+      - .env
+    environment:
+      - PORT=3004
+
   api-gateway:
     image: nginx:alpine
     container_name: api-gateway
@@ -53,6 +75,8 @@ services:
       - auth-service
       - product-service-1
       - product-service-2
+      - order-service
+      - mail-service
 
 # volume to persist data for mongodb in hard disk
 volumes:
